@@ -17,4 +17,8 @@ function breakdown(num) {
   return result
 }
 
-console.log(breakdown(5623847))
+// console.log(breakdown(5623847))
+
+module.exports = {
+  breakdown
+}
