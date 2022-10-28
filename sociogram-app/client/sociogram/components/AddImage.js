@@ -44,7 +44,7 @@ function AddImage({ imageUrl, setImageUrl, setLoading, loading }) {
             headers: {
               Accept: "application/json",
               "Content-Type": "multipart/form-data",
-              access_token: accessToken,
+              Authorization: `Bearer ${accessToken}`,
             },
           };
         } else {
@@ -58,7 +58,6 @@ function AddImage({ imageUrl, setImageUrl, setLoading, loading }) {
       })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         if (res.statusCode == 201) {
           Image.getSize(
             res.data.imageUrl,

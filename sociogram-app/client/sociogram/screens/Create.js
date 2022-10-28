@@ -40,7 +40,7 @@ function Create() {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          access_token: accessToken,
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(data),
       });

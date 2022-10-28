@@ -35,19 +35,18 @@ function Comment({ route }) {
         message: comment,
       };
       const response = await fetch(
-        "http://127.0.0.1:3001/sociogram-app/comments/add",
+        "http://54.251.82.169/sociogram-app/comments/add",
         {
           method: "POST",
           body: JSON.stringify(data),
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            access_token: accessToken,
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
       const result = await response.json();
-      console.log(result)
       let newComment = {
         ...result["data"]._doc,
         userId: result["data"].userId,
