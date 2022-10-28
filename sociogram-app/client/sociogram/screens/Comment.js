@@ -15,7 +15,7 @@ import { useFocusEffect } from "@react-navigation/native";
 function Comment({ route }) {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState(route.params.comments);
-  const [caption, setCaption] = useState(route.params.caption)
+  const [caption, setCaption] = useState(route.params.caption);
   const { accessToken, setScreen } = useContext(AuthContext);
 
   const commentInput = (text) => {
@@ -24,7 +24,7 @@ function Comment({ route }) {
 
   useFocusEffect(
     React.useCallback(() => {
-      setScreen('Comment')
+      setScreen("Comment");
     }, [])
   );
 
@@ -34,20 +34,28 @@ function Comment({ route }) {
         postId: route.params.postId,
         message: comment,
       };
-      const response = await fetch("http://54.255.134.36:3001/comments/add", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          access_token: accessToken,
-        },
-      });
+      const response = await fetch(
+        "http://127.0.0.1:3001/sociogram-app/comments/add",
+        {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            access_token: accessToken,
+          },
+        }
+      );
       const result = await response.json();
-      let newComment = { ...result['data']._doc, userId: result['data'].userId  }
+      console.log(result)
+      let newComment = {
+        ...result["data"]._doc,
+        userId: result["data"].userId,
+      };
       setComments((old) => [...old, newComment]);
       setComment("");
     } catch (error) {
+      console.log(error)
       alert(error);
     }
   };
@@ -55,7 +63,11 @@ function Comment({ route }) {
     <>
       <ScrollView style={{ backgroundColor: "white", marginBottom: 60 }}>
         <View style={{ borderBottomWidth: 0.5 }}>
-          <CommentCompo message={caption} userId={route.params.username} createdAt={route.params.createdAt}/>
+          <CommentCompo
+            message={caption}
+            userId={route.params.username}
+            createdAt={route.params.createdAt}
+          />
         </View>
         {comments &&
           comments.length > 0 &&

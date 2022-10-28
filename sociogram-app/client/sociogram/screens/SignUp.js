@@ -26,7 +26,7 @@ function SignUp() {
   };
 
   const signUp = () => {
-    fetch("http://54.255.134.36:3001/users/signup", {
+    fetch("http://54.251.82.169/sociogram-app/users/signup", {
       method: "POST",
       headers: {
         Accept: "application/json",

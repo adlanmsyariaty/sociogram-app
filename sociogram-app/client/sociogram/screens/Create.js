@@ -23,11 +23,11 @@ function Create() {
 
   useFocusEffect(
     React.useCallback(() => {
-      setScreen('Create')
-      setImageUrl('')
-      setCaption('')
+      setScreen("Create");
+      setImageUrl("");
+      setCaption("");
     }, [])
-  )
+  );
 
   const submitPost = async () => {
     try {
@@ -35,7 +35,7 @@ function Create() {
         imageUrl: imageUrl,
         caption: caption,
       };
-      let result = await fetch("http://54.255.134.36:3001/posts/add", {
+      let result = await fetch("http://54.251.82.169/sociogram-app/posts/add", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -46,8 +46,8 @@ function Create() {
       });
       const res = await result.json();
       if (res.statusCode == 201) {
-        setCaption('')
-        setImageUrl('')
+        setCaption("");
+        setImageUrl("");
         navigation.navigate("Home");
       } else {
         throw { message: res.message };

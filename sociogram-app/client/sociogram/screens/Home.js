@@ -16,13 +16,13 @@ import AuthContext from "../context/AuthContext";
 function Home() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { setScreen } = useContext(AuthContext)
+  const { setScreen } = useContext(AuthContext);
   const navigation = useNavigation();
 
   useFocusEffect(
     React.useCallback(() => {
-      setScreen('Home')
-      fetch("http://54.255.134.36:3001/posts", {
+      setScreen("Home");
+      fetch("http://54.251.82.169/sociogram-app/posts", {
         method: "GET",
       })
         .then((res) => res.json())
@@ -46,9 +46,7 @@ function Home() {
     );
   }
 
-  const renderItem = ({ item }) => (
-    <Content post={item} />
-  );
+  const renderItem = ({ item }) => <Content post={item} />;
 
   if (loading) {
     return (
@@ -67,13 +65,12 @@ function Home() {
   return (
     <>
       {/* add comment bar each of post */}
-      {posts.data &&
-        posts.data.length > 0 && (
+      {posts.data && posts.data.length > 0 && (
         <FlatList
-          style={{ backgroundColor: 'white' }}
+          style={{ backgroundColor: "white" }}
           data={posts.data}
           renderItem={renderItem}
-          keyExtractor={item => item._id}
+          keyExtractor={(item) => item._id}
           showsVerticalScrollIndicator={false}
         />
       )}

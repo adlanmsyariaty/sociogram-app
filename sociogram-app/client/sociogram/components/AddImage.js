@@ -9,15 +9,15 @@ import {
 import { Feather } from "@expo/vector-icons";
 import * as DocumentPicker from "expo-document-picker";
 import AuthContext from "../context/AuthContext.js";
-import { Dimensions } from 'react-native';
+import { Dimensions } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 
-const window = Dimensions.get('window');
-const screen = Dimensions.get('screen');
+const window = Dimensions.get("window");
+const screen = Dimensions.get("screen");
 
 function AddImage({ imageUrl, setImageUrl, setLoading, loading }) {
   const { accessToken } = useContext(AuthContext);
-  const [imageScale, setImageScale] = useState(0)
+  const [imageScale, setImageScale] = useState(0);
 
   const pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({
@@ -51,18 +51,25 @@ function AddImage({ imageUrl, setImageUrl, setLoading, loading }) {
           throw { message: response.type };
         }
         setLoading(true);
-        return fetch("http://54.255.134.36:3001/posts/imageUpload", options);
+        return fetch(
+          "http://54.251.82.169/sociogram-app/posts/imageUpload",
+          options
+        );
       })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res)
+        console.log(res);
         if (res.statusCode == 201) {
-          Image.getSize(res.data.imageUrl, (width, height) => {
-            setImageScale(width/height)
-            setImageUrl(res.data.imageUrl);
-          }, (error) => {
-            console.error(`Couldn't get the image size: ${error.message}`);
-          });
+          Image.getSize(
+            res.data.imageUrl,
+            (width, height) => {
+              setImageScale(width / height);
+              setImageUrl(res.data.imageUrl);
+            },
+            (error) => {
+              console.error(`Couldn't get the image size: ${error.message}`);
+            }
+          );
         } else {
           throw { message: "Internal Server Error" };
         }
@@ -91,7 +98,7 @@ function AddImage({ imageUrl, setImageUrl, setLoading, loading }) {
         source={{
           uri: imageUrl,
         }}
-        style={{ width: screen.width, height: screen.width/imageScale }}
+        style={{ width: screen.width, height: screen.width / imageScale }}
       />
     );
   }
