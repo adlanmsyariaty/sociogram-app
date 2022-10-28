@@ -55,7 +55,7 @@ function Comment({ route }) {
     <>
       <ScrollView style={{ backgroundColor: "white", marginBottom: 60 }}>
         <View style={{ borderBottomWidth: 0.5 }}>
-          <CommentCompo message={caption} userId={route.params.username}/>
+          <CommentCompo message={caption} userId={route.params.username} createdAt={route.params.createdAt}/>
         </View>
         {comments &&
           comments.length > 0 &&
@@ -63,6 +63,7 @@ function Comment({ route }) {
             <CommentCompo
               message={el.message}
               userId={el.userId.username}
+              createdAt={el.createdAt}
               key={el._id}
             />
           ))}
