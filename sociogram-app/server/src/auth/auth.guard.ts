@@ -16,20 +16,14 @@ export class AuthGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const req = context.switchToHttp().getRequest();
-    console.log(req.headers)
     let { authorization: access_token } = req.headers
     access_token = access_token.split(' ')[1]
     let payload: any = {}
-    console.log(access_token)
-    console.log('access_token')
     return new Promise((resolve) => {
       payload = this.jwtService.verify(access_token)
-      console.log(payload)
-      console.log('payload')
       resolve(this.userModel.findOne({ _id: payload.id }))
     })
     .then((res: any) => {
-      console.log(res)
       if (res) {
         req.user = {
           id: res._id,
