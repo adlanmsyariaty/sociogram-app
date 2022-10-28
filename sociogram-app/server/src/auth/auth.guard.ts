@@ -19,9 +19,11 @@ export class AuthGuard implements CanActivate {
     const { access_token } = req.headers
     let payload: any = {}
     console.log(access_token)
+    console.log('access_token')
     return new Promise((resolve) => {
       payload = this.jwtService.verify(access_token)
       console.log(payload)
+      console.log('payload')
       resolve(this.userModel.findOne({ _id: payload.id }))
     })
     .then((res: any) => {
