@@ -24,9 +24,11 @@ export type Post = {
         schema: PostSchema
       },
     ]),
-    JwtModule.register({
-      secret: process.env.JWT_KEY,
-    })
+    JwtModule.registerAsync({
+      useFactory: () => ({
+        secret: process.env.JWT_KEY
+      })
+    }),
   ],
   controllers: [PostController],
   providers: [PostsService],

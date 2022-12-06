@@ -15,8 +15,10 @@ export type User = {
 
 @Module({
   imports: [
-    JwtModule.register({
-      secret: process.env.JWT_KEY,
+    JwtModule.registerAsync({
+      useFactory: () => ({
+        secret: process.env.JWT_KEY
+      })
     }),
     MongooseModule.forFeatureAsync([
       {

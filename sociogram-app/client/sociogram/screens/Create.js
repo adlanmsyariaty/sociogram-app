@@ -35,15 +35,18 @@ function Create() {
         imageUrl: imageUrl,
         caption: caption,
       };
-      let result = await fetch("http://54.251.82.169/sociogram-app/posts/add", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify(data),
-      });
+      let result = await fetch(
+        "http://127.0.0.1:3001/sociogram-app/posts/add",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(data),
+        }
+      );
       const res = await result.json();
       if (res.statusCode == 201) {
         setCaption("");

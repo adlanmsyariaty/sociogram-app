@@ -28,9 +28,11 @@ export type Post = {
         schema: CommentSchema
       },
     ]),
-    JwtModule.register({
-      secret: process.env.JWT_KEY,
-    })
+    JwtModule.registerAsync({
+      useFactory: () => ({
+        secret: process.env.JWT_KEY
+      })
+    }),
   ],
   controllers: [CommentController],
   providers: [CommentsService],

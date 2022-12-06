@@ -35,7 +35,7 @@ function Comment({ route }) {
         message: comment,
       };
       const response = await fetch(
-        "http://54.251.82.169/sociogram-app/comments/add",
+        "http://127.0.0.1:3001/sociogram-app/comments/add",
         {
           method: "POST",
           body: JSON.stringify(data),

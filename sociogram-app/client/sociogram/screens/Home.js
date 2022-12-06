@@ -22,7 +22,7 @@ function Home() {
   useFocusEffect(
     React.useCallback(() => {
       setScreen("Home");
-      fetch("http://54.251.82.169/sociogram-app/posts", {
+      fetch("http://127.0.0.1:3001/sociogram-app/posts", {
         method: "GET",
       })
         .then((res) => res.json())
