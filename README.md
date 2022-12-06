@@ -1,6 +1,6 @@
 # SOCIOGRAM APP (MOBILE APPLICATION)
 
-## Server: NestJS
+## Server: NestJS & Java
 ## Client: React Native
 
 ### Theme: Social Media
