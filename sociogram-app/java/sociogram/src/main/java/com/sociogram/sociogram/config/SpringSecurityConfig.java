@@ -1,27 +1,22 @@
 package com.sociogram.sociogram.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.sociogram.sociogram.securities.JWTAuthzFilter;
 
 @Configuration
+@EnableWebSecurity
 public class SpringSecurityConfig {
 
-  @Bean
-  public InMemoryUserDetailsManager userDetailsService(BCryptPasswordEncoder bCryptPasswordEncoder) {
-    UserDetails user = User
-      .withUsername("adlan")
-      .password(bCryptPasswordEncoder.encode("12345"))
-      .roles("ADMIN")
-      .build();
-
-    return new InMemoryUserDetailsManager(user);
-  }
+  @Autowired
+  private JWTAuthzFilter jwtAuthzFilter;
 
   @Bean
   public BCryptPasswordEncoder passwordEncoder() {
@@ -33,8 +28,11 @@ public class SpringSecurityConfig {
     http
       .csrf()
       .disable()
-      .authorizeHttpRequests((authz) -> authz.anyRequest().authenticated())
-      .httpBasic();
+      .addFilterAfter(jwtAuthzFilter, UsernamePasswordAuthenticationFilter.class)
+      .authorizeHttpRequests((authz) -> authz
+        .requestMatchers("/users/login", "/users/signup").permitAll()
+        .anyRequest().authenticated()
+      );
 
     return http.build();
   }
