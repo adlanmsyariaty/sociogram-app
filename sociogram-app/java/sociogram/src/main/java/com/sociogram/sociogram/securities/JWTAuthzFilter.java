@@ -2,14 +2,21 @@ package com.sociogram.sociogram.securities;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sociogram.sociogram.helpers.ResponseHandler;
 import com.sociogram.sociogram.models.User;
 import com.sociogram.sociogram.repositories.UserRepository;
 
@@ -31,6 +38,9 @@ public class JWTAuthzFilter extends OncePerRequestFilter {
 
   @Autowired
   private UserRepository userRepository;
+
+  @Autowired
+  ObjectMapper mapper;
 
   @Value("${secret}")
   private String secretKey;
@@ -56,9 +66,15 @@ public class JWTAuthzFilter extends OncePerRequestFilter {
       }
       chain.doFilter(req, res);
 		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException e) {
-      System.out.println(e.getMessage());
 			res.setStatus(HttpServletResponse.SC_FORBIDDEN);
-			((HttpServletResponse) res).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
+
+      ServletServerHttpResponse response = new ServletServerHttpResponse(res);
+      response.setStatusCode(HttpStatus.UNAUTHORIZED);
+      response.getServletResponse().setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+
+      Map<String, Object> resp = ResponseHandler.generateHashMap(e.getMessage(), HttpStatus.UNAUTHORIZED, null);
+
+      response.getBody().write(mapper.writeValueAsString(resp).getBytes());
 			return;
 		}
   }

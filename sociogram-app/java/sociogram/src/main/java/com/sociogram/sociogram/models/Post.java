@@ -1,30 +1,50 @@
 package com.sociogram.sociogram.models;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
-@Document("posts")
+@Entity
+@Table(name = "Posts")
 public class Post {
 
-  private String _id;
-  private String userId;
-  private String imageUrl;
-  private String caption;
-  private List<String> comments;
-  private double createdAt;
+  @Id
+  @GeneratedValue
+  private Integer id;
 
-  public Post(String _id, String userId, String caption, List<String> comments, double createdAt) {
+  private String userId;
+
+  private String imageUrl;
+
+  private String caption;
+
+  @OneToMany(cascade = CascadeType.ALL)
+  @JoinColumn(name = "postId", referencedColumnName = "id")
+  private List<Comment> comments = new ArrayList<>();
+
+  private Timestamp createdAt;
+
+  public Post() {}
+
+  public Post(Integer id, String userId, String imageUrl, String caption, List<Comment> comments, Timestamp createdAt) {
     super();
-    this._id = _id;
     this.userId = userId;
-    this.caption = caption;
+    this.imageUrl = imageUrl;
     this.comments = comments;
+    this.caption = caption;
     this.createdAt = createdAt;
   }
 
-  public String getId() {
-    return _id;
+  public Integer getId() {
+    return id;
   }
 
   public String getUserId() {
@@ -35,15 +55,15 @@ public class Post {
     return caption;
   }
 
+  public List<Comment> getComments() {
+    return comments;
+  }
+
   public String getImageUrl() {
     return imageUrl;
   }
 
-  public List<String> getComments() {
-    return comments;
-  }
-
-  public double getCreatedAt() {
+  public Timestamp getCreatedAt() {
     return createdAt;
   }
 }

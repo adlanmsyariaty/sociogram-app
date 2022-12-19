@@ -28,11 +28,13 @@ public class SpringSecurityConfig {
     http
       .csrf()
       .disable()
-      .addFilterAfter(jwtAuthzFilter, UsernamePasswordAuthenticationFilter.class)
       .authorizeHttpRequests((authz) -> authz
         .requestMatchers("/users/login", "/users/signup").permitAll()
         .anyRequest().authenticated()
-      );
+      )
+      // .exceptionHandling().authenticationEntryPoint(jwtAuthEntry)
+      // .and()
+      .addFilterBefore(jwtAuthzFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
   }

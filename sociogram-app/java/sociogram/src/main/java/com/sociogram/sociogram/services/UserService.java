@@ -79,7 +79,7 @@ public class UserService {
       newUser.setPassword(encoder.encode(newUser.getPassword()));
       userRepository.save(newUser);
 
-      return ResponseHandler.generateResponse("Success to create new user", HttpStatus.OK, null);
+      return ResponseHandler.generateResponse("Success to create new user", HttpStatus.CREATED, null);
 
     } catch (Exception e) {
       if (e.getMessage() == "USER_NOT_FOUND") {
