@@ -59,7 +59,11 @@ public class JWTAuthzFilter extends OncePerRequestFilter {
         String userEmail = claims.get("email").toString();
         User userData = userRepository.findUserByEmail(userEmail);
 
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userData.getName(), null, new ArrayList<>());
+        if (userData == null) {
+          throw new IOException("User not found");
+        }
+
+        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userData.getId(), null, new ArrayList<>());
         SecurityContextHolder.getContext().setAuthentication(auth);
       } else {
         SecurityContextHolder.clearContext();

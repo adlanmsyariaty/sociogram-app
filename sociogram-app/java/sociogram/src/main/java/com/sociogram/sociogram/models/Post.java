@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +20,7 @@ public class Post {
 
   @Id
   @GeneratedValue
-  private Integer id;
+  private long id;
 
   private String userId;
 
@@ -30,29 +32,38 @@ public class Post {
   @JoinColumn(name = "postId", referencedColumnName = "id")
   private List<Comment> comments = new ArrayList<>();
 
+  @CreationTimestamp
   private Timestamp createdAt;
 
   public Post() {}
 
-  public Post(Integer id, String userId, String imageUrl, String caption, List<Comment> comments, Timestamp createdAt) {
+  public Post(long id, String userId, String imageUrl, String caption, List<Comment> comments, Timestamp createdAt) {
     super();
     this.userId = userId;
     this.imageUrl = imageUrl;
-    this.comments = comments;
     this.caption = caption;
     this.createdAt = createdAt;
   }
 
-  public Integer getId() {
+  public long getId() {
     return id;
+  }
+  public void setId(long id) {
+    this.id = id;
   }
 
   public String getUserId() {
     return userId;
   }
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
 
   public String getCaption() {
     return caption;
+  }
+  public void setCaption(String caption) {
+    this.caption = caption;
   }
 
   public List<Comment> getComments() {
@@ -62,8 +73,14 @@ public class Post {
   public String getImageUrl() {
     return imageUrl;
   }
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+  }
 
   public Timestamp getCreatedAt() {
     return createdAt;
+  }
+  public void setCreatedAt(Timestamp createdAt) {
+    this.createdAt = createdAt;
   }
 }

@@ -1,10 +1,10 @@
 package com.sociogram.sociogram.models;
 
-import java.security.Timestamp;
+
+import java.sql.Timestamp;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,39 +15,39 @@ import jakarta.persistence.Table;
 @Table(name = "Comments")
 public class Comment {
 
-  private int id;
-  private int postId;
-  private String message;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private long id;
 
+  private long postId;
+
+  private String message;
+  
   @CreationTimestamp
   private Timestamp createdAt;
 
   public Comment() {}
 
-  public Comment(int id, int postId, String message, Timestamp createdAt) {
+  public Comment(long id, long postId, String message, Timestamp createdAt) {
     this.postId = postId;
     this.message = message;
     this.createdAt = createdAt;
   }
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
-  public int getId() {
+  public long getId() {
     return id;
   }
-  public void setId(int id) {
+  public void setId(long id) {
     this.id = id;
   }
 
-  @Column(name = "postId", nullable = false)
-  public int getPostId() {
+  public long getPostId() {
     return postId;
   }
-  public void setPostId(int postId) {
+  public void setPostId(long postId) {
     this.postId = postId;
   }
 
-  @Column(name = "message", nullable = false)
   public String getMessage() {
     return message;
   }
@@ -55,7 +55,6 @@ public class Comment {
     this.message = message;
   }
 
-  @Column(name = "createdAt")
   public Timestamp getCreatedAt() {
     return createdAt;
   }

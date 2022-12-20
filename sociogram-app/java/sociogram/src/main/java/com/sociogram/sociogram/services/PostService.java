@@ -1,18 +1,16 @@
 package com.sociogram.sociogram.services;
 
-import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.sociogram.sociogram.helpers.ResponseHandler;
-import com.sociogram.sociogram.models.Comment;
 import com.sociogram.sociogram.models.Post;
-import com.sociogram.sociogram.repositories.CommentRepository;
 import com.sociogram.sociogram.repositories.PostRepository;
 
 @Service
@@ -21,29 +19,29 @@ public class PostService {
   @Autowired
   private PostRepository postRepository;
 
-  @Autowired
-  private CommentRepository commentRepository;
-
   public ResponseEntity<Object> getAllPost() {
     try {
-      System.out.println("masuk");
-      // List<Post> posts = postRepository.findAll();
-      System.out.println("posts");
+      List<Post> posts = postRepository.findAll();
 
-      Instant time = Instant.now();
-      System.out.println(time);
+      return ResponseHandler.generateResponse("Success to get all post data", HttpStatus.OK, posts);
+    } catch (Exception e) {
+      System.out.println(e);
+      return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+    }
+  }
 
-      Comment newComment = new Comment();
-      newComment.setPostId(2);
-      newComment.setMessage("huhuhu mau kesana juga");
-      // newComment.setCreatedAt(time);
+  public ResponseEntity<Object> addPost(Post postData) {
+    try {
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+      String userId = auth.getPrincipal().toString();
 
-      commentRepository.save(newComment);
+      Post newPost = new Post();
+      newPost.setCaption(postData.getCaption());
+      newPost.setImageUrl(postData.getImageUrl());
+      newPost.setUserId(userId);
+      postRepository.save(newPost);
 
-      List<Comment> comments = commentRepository.findAll();
-      System.out.println(comments);
-
-      return ResponseHandler.generateResponse("Success to get all post data", HttpStatus.OK, comments);
+      return ResponseHandler.generateResponse("Success to create new post", HttpStatus.CREATED, newPost);
     } catch (Exception e) {
       System.out.println(e);
       return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
