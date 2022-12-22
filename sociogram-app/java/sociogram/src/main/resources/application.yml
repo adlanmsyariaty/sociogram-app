@@ -1,0 +1,13 @@
+cloud:
+  aws:
+    credentials:
+      access-key: AKIA5LOH5CBZZL7BBEZW
+      secret-key: 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
+    region:
+      static: ap-southeast-1
+    stack:
+      auto: false
+
+application:
+  bucket:
+    name: socigram-storage-app

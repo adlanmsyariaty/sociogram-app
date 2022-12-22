@@ -29,11 +29,9 @@ public class SpringSecurityConfig {
       .csrf()
       .disable()
       .authorizeHttpRequests((authz) -> authz
-        .requestMatchers("/users/login", "/users/signup").permitAll()
+        .requestMatchers("/users/login", "/users/signup", "/posts").permitAll()
         .anyRequest().authenticated()
       )
-      // .exceptionHandling().authenticationEntryPoint(jwtAuthEntry)
-      // .and()
       .addFilterBefore(jwtAuthzFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();

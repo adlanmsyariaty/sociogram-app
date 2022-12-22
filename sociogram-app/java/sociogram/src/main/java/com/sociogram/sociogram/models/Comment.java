@@ -19,16 +19,20 @@ public class Comment {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
 
+  private String userId;
+
   private long postId;
 
   private String message;
-  
+
   @CreationTimestamp
   private Timestamp createdAt;
 
   public Comment() {}
 
-  public Comment(long id, long postId, String message, Timestamp createdAt) {
+  public Comment(long id, String userId, long postId, String message, Timestamp createdAt) {
+    super();
+    this.userId = userId;
     this.postId = postId;
     this.message = message;
     this.createdAt = createdAt;
@@ -39,6 +43,13 @@ public class Comment {
   }
   public void setId(long id) {
     this.id = id;
+  }
+
+  public String getUserId() {
+    return userId;
+  }
+  public void setUserId(String userId) {
+    this.userId = userId;
   }
 
   public long getPostId() {
