@@ -67,7 +67,6 @@ public class PostService {
       File convertedFile = new File(imageFile.getOriginalFilename());
 
       FileOutputStream fos = new FileOutputStream(convertedFile);
-
       fos.write(imageFile.getBytes());
       fos.close();
 
