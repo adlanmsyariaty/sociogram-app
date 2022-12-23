@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 @SpringBootApplication
 @EnableMongoRepositories
 @EnableJpaRepositories

@@ -75,6 +75,12 @@
 			<version>2.2.6.RELEASE</version>
 		</dependency>
 
+		<dependency>
+			<groupId>io.github.cdimascio</groupId>
+			<artifactId>java-dotenv</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
